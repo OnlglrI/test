@@ -1,0 +1,58 @@
+BUILD OFFLINE
+=============
+
+Все команды запускаются из папки java-c-tests\
+
+
+--- S3 (Java only) ---
+
+cd S3_plan\S3_SpringServer
+mvn package -o -Dmaven.repo.local=..\..\libs\maven -DskipTests
+
+
+--- S4 (C# only) ---
+
+cd S4_plan\S4_Client
+dotnet restore --packages ..\..\libs\nuget
+dotnet build --no-restore
+
+
+--- S5 (Java + C#) ---
+
+cd S5_plan\S5_back
+mvn package -o -Dmaven.repo.local=..\..\libs\maven -DskipTests
+
+cd S5_plan\S5_desk
+dotnet restore --packages ..\..\libs\nuget
+dotnet build --no-restore
+
+
+--- S6 (Java + C#) ---
+
+cd S6_plan\S6_back
+mvn package -o -Dmaven.repo.local=..\..\libs\maven -DskipTests
+
+cd S6_plan\S6_desk
+dotnet restore --packages ..\..\libs\nuget
+dotnet build --no-restore
+
+
+--- TEST (проверка что все либы работают) ---
+
+# Java — запустить сервер:
+cd test\java
+mvn spring-boot:run -o -Dmaven.repo.local=..\..\libs\maven
+# Открыть в браузере: http://localhost:9090/api/check
+# Должен вернуть JSON со всеми "OK"
+
+# C# — запустить WinForms:
+cd test\csharp
+dotnet restore --packages ..\..\libs\nuget
+dotnet run
+# Нажать "1. Test C# libs" (без сервера)
+# Нажать "2. Test Java server" (нужен запущенный сервер выше)
+
+
+--- Если libs пуста (нужен интернет) ---
+
+.\download_deps.ps1

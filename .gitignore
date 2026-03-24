@@ -1,0 +1,20 @@
+# Maven build output
+target/
+
+# .NET build output
+bin/
+obj/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Env
+.env
